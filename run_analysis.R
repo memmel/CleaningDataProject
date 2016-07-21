@@ -75,9 +75,9 @@ run_analysis <- function(){
 	#SATISFIES STEP 5 of the assignment:  From the data set in step 4, creates a second, 
 	#independent tidy data set with the average of each variable for each activity and each subject.
 	xComboGrouped<-summarise_each(xComboGrouped, funs(mean))	
-	write.table(xComboGrouped, file = "./hwclass3week4/run_analysis_output.csv", col.names=TRUE)
+	write.table(xComboGrouped, file = "./hwclass3week4/run_analysis_output.txt", row.names=FALSE)
 	#Give user information on how to read the file from R
-	cat("File saved as ./hwclass3week4/run_analysis_output.csv and has column headers.", "\n")
-	cat("Read file into test by typing: test<-read.table(file=\"./hwclass3week4/run_analysis_output.csv\", header=TRUE)", "\n")
-	return(cat("Then, in RStudio, easily view the contents by then typing: View(test)", "\n"))
+	cat("File saved as ./hwclass3week4/run_analysis_output.txt and has column headers.", "\n")
+	cat("Read file into data by typing: data<-read.table(file=\"./hwclass3week4/run_analysis_output.txt\", header=TRUE)", "\n")
+	return(cat("Then, in RStudio, easily view the contents by then typing: View(data)", "\n"))
 }
