@@ -8,7 +8,7 @@ The experiments have been carried out with a group of 30 volunteers within an ag
 The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
 
 
-###The Project Requirements (taken from the course assignment description)
+###The Project Requirements 
 Create one R script called run_analysis.R that does the following:
 
 * Merges the training and the test sets to create one data set.
@@ -17,33 +17,31 @@ Create one R script called run_analysis.R that does the following:
 * Appropriately labels the data set with descriptive variable names.
 * From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-In the script run_analysis.R, the provided input files (see separate section below for more detail) were massaged and processed to create a tidy data set of the mean of each measurement for any column of means or standard deviations across a subject/activity pairing  
+In the script run_analysis.R, the provided input files (see separate section below for more detail) were massaged and processed to create a tidy data set of the mean of each measurement for any column of means or standard deviations across a subject/activity pairing.   
 
-The first step was to download the zip file of all of the provided input files, download it, unzip it and gain access to all provided data.  This data included the following files"
-	* subject_test.txt
-	* X_test.txt
-	* y_test.txt
-	* subject_train.txt
-	* X_train.txt
-	* y_train.txt
-	* features.txt: a list of the column names and row numbers
-	* activity_labels.txt: a list of activity id's and labels
+The first step was to download the zip file of all of the provided input files, unzip it and gain access to all provided data.  This data included the following files"
+	* subject_test.txt:  2,947 rows of subject ids that performed testing
+	* X_test.txt:  2,947 rows of 561 measurements
+	* y_test.txt:  2,947 rows of activity_ids that were measured
+	* subject_train.txt:  7,352 rows of subject ids that performed testing
+	* X_train.txt:  7,352 rows of 561 measurements
+	* y_train.txt: 7,352 rows of activity_ids that were measured
+	* features.txt: the full list of 561 hard-to-read column names and row numbers (1-561)
+	* activity_labels.txt: a list of activity ids (1-6) and their corresponding labels (walking, walking upstairs, walking downstairs, sitting, standing, laying)
 
-The next step was to clean the list of column names found in the features.txt file.  To make the column names tidy, I removed the special chars and capitalized M of mean, S of std and G of gravity for readability.  After performing this step, column names were much more readable.  For example, fBodyAcc-std()-X was simplified to fBodyAccStdX for ease of reading.  
+The next step was to clean the list of column names found in the features.txt file.  To make the column names tidy, I removed the special characters and capitalized M of mean, S of std and G of gravity for readability.  After performing this step, column names were much more readable.  For example, fBodyAcc-std()-X was simplified to fBodyAccStdX for ease of reading.  
 
-X_test and X_train were labeled with the new tidy variable names which SATISFIES STEP 4 of the assignment:  Appropriately labels the data set with descriptive variable names.
+X_test and X_train (the 561 measurements columns) were labeled with the new tidy variable names which SATISFIES STEP 4 of the assignment:  Appropriately labels the data set with descriptive variable names.
 
-The subject_test and y_test files were combined with the X_test file.  Column names 1 and 2 were named "activity" and "subject". 
-
-The subject_train and y_train files were combined with the X_train file.  Column names 1 and 2 were named "activity" and "subject". 
+The subjects and activities were matched to their respective measurements, giving us one file with the test data (2,947 rows) and another with the training data (7,352 rows).  (The subject_test and y_test files were combined with the X_test file.  Column names 1 and 2 were named "activity" and "subject".  The subject_train and y_train files were combined with the X_train file.  Column names 1 and 2 were named "activity" and "subject".) 
 	
-X_test and X_train files were combined into xCombo.  SATISFIES STEP 1 of the assignment:  Merges the training and the test sets to create one data set.
+The test and training files were combined into a single file (X_test and X_train files were combined into xCombo).  This SATISFIES STEP 1 of the assignment:  Merges the training and the test sets to create one data set.
 
-All of the column names in the features.txt file that calculated a mean or standard deviation were listed.  This included column names that had "mean" anywhere in their name.  "Activity" and "subject" were added to the list of important columns.  xCombo, the combination of all of the test and training data was then whittled down to only the important columns (i.e. those that included mean or standard deviation in their names).  SATISFIES STEP 2 of the assignment:  Extracts only the measurements on the mean and standard deviation for each measurement.
+All of the column names in the features.txt file that measured mean or standard deviations were separated out as important columns.  This included column names that had "mean" anywhere in their name.  "Activity" and "subject" were added to the list of important columns. Eighty-eight of the original 561 columns were meaningful for the final dataset.  xCombo, the combination of all of the test and training data was then whittled down to only the 88 important columns (i.e. those that included mean or standard deviation in their names).  SATISFIES STEP 2 of the assignment:  Extracts only the measurements on the mean and standard deviation for each measurement.
 
 Then, to further tidy the column values, the activity id's were converted to activity names.  SATISFIES STEP 3 of the assignment:  Uses descriptive activity names to name the activities in the data set.
 
-From this data set, a second, independent tidy data set with the avg of each variable for each activity and each subject was calculated.  The data set was grouped by activity_name and subject and then used the summarize_each() to get the means of all non-grouped columns.  This SATISFIES STEP 5 of the assignment:  From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.  The data is tidy because it meets the following criteria: 
+From this data set, a second, independent tidy data set with the avg of each set of measurement variables for each activity and subject combination was calculated.  The data set was grouped by activity_name and subject and then the summarize_each() was called to get the means of all non-grouped columns.  The grouping narrowed over 10,000 rows to 180 observations.  This SATISFIES STEP 5 of the assignment:  From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.  The data is tidy because it meets the following criteria: 
 	* There are no duplicate columns
 	* All columns have readable column headings
 	* Each variable is in its own column
