@@ -20,14 +20,14 @@ Create one R script called run_analysis.R that does the following:
 In the script run_analysis.R, the provided input files (see separate section below for more detail) were massaged and processed to create a tidy data set of the mean of each measurement for any column of means or standard deviations across a subject/activity pairing.   
 
 The first step was to download the zip file of all of the provided input files, unzip it and gain access to all provided data.  This data included the following files"
-	* subject_test.txt:  2,947 rows of subject ids that performed testing
-	* X_test.txt:  2,947 rows of 561 measurements
-	* y_test.txt:  2,947 rows of activity_ids that were measured
-	* subject_train.txt:  7,352 rows of subject ids that performed testing
-	* X_train.txt:  7,352 rows of 561 measurements
-	* y_train.txt: 7,352 rows of activity_ids that were measured
-	* features.txt: the full list of 561 hard-to-read column names and row numbers (1-561)
-	* activity_labels.txt: a list of activity ids (1-6) and their corresponding labels (walking, walking upstairs, walking downstairs, sitting, standing, laying)
+- subject_test.txt:  2,947 rows of subject ids that performed testing
+- X_test.txt:  2,947 rows of 561 measurements
+- y_test.txt:  2,947 rows of activity_ids that were measured
+- subject_train.txt:  7,352 rows of subject ids that performed testing
+- X_train.txt:  7,352 rows of 561 measurements
+- y_train.txt: 7,352 rows of activity_ids that were measured
+- features.txt: the full list of 561 hard-to-read column names and row numbers (1-561)
+- activity_labels.txt: a list of activity ids (1-6) and their corresponding labels (walking, walking upstairs, walking downstairs, sitting, standing, laying)
 
 The next step was to clean the list of column names found in the features.txt file.  To make the column names tidy, I removed the special characters and capitalized M of mean, S of std and G of gravity for readability.  After performing this step, column names were much more readable.  For example, fBodyAcc-std()-X was simplified to fBodyAccStdX for ease of reading.  
 
@@ -42,10 +42,10 @@ All of the column names in the features.txt file that measured mean or standard 
 Then, to further tidy the column values, the activity id's were converted to activity names.  SATISFIES STEP 3 of the assignment:  Uses descriptive activity names to name the activities in the data set.
 
 From this data set, a second, independent tidy data set with the avg of each set of measurement variables for each activity and subject combination was calculated.  The data set was grouped by activity_name and subject and then the summarize_each() was called to get the means of all non-grouped columns.  The grouping narrowed over 10,000 rows to 180 observations.  This SATISFIES STEP 5 of the assignment:  From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.  The data is tidy because it meets the following criteria: 
-	* There are no duplicate columns
-	* All columns have readable column headings
-	* Each variable is in its own column
-	* Each observation is on its own row
+- There are no duplicate columns
+- All columns have readable column headings
+- Each variable is in its own column
+- Each observation is on its own row
 
 The output was written to "./hwclass3week4/run_analysis_output.txt" with row.names set to FALSE. The file has column headers.  	
 
